@@ -1,0 +1,1809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Amelia Hartwood — Premier Medical Clinic</title>
+    <style>
+        :root {
+            --bg-deep: #0a0f1a;
+            --bg-dark: #0f1625;
+            --bg-card: #151d2e;
+            --bg-card-alt: #1a2338;
+            --gold: #c9a96e;
+            --gold-light: #d4b87a;
+            --gold-dark: #a88a4f;
+            --white: #f0ece4;
+            --white-soft: #e8e4da;
+            --text-primary: #e8e4da;
+            --text-secondary: #b0aca4;
+            --text-muted: #7a7670;
+            --accent-teal: #5a9e96;
+            --accent-teal-light: #7bbfb7;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-gold: rgba(201, 169, 110, 0.3);
+            --shadow-card: 0 4px 32px rgba(0, 0, 0, 0.4), 0 1px 0 rgba(201, 169, 110, 0.08) inset;
+            --shadow-elevated: 0 12px 48px rgba(0, 0, 0, 0.55), 0 1px 0 rgba(201, 169, 110, 0.12) inset;
+            --shadow-gold-glow: 0 0 60px rgba(201, 169, 110, 0.15), 0 0 120px rgba(201, 169, 110, 0.06);
+            --radius-sm: 12px;
+            --radius-md: 18px;
+            --radius-lg: 26px;
+            --radius-xl: 34px;
+            --font-heading: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
+            --font-body: 'Inter', 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+            --transition-smooth: cubic-bezier(0.22, 0.61, 0.36, 1);
+            --transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --transition-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(201, 169, 110, 0.35) transparent;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(201, 169, 110, 0.35);
+            border-radius: 20px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(201, 169, 110, 0.6);
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            cursor: default;
+        }
+
+        /* ── Custom Cursor ─────────────────────────── */
+        .cursor-dot {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99999;
+            transition: transform 0.08s ease-out, background 0.3s;
+            mix-blend-mode: difference;
+            transform: translate(-50%, -50%);
+        }
+        .cursor-ring {
+            position: fixed;
+            width: 38px;
+            height: 38px;
+            border: 1.8px solid rgba(201, 169, 110, 0.55);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99998;
+            transition: width 0.25s var(--transition-smooth), height 0.25s var(--transition-smooth),
+                border-color 0.25s, transform 0.12s ease-out;
+            transform: translate(-50%, -50%);
+        }
+        .cursor-ring.hovering {
+            width: 56px;
+            height: 56px;
+            border-color: var(--gold-light);
+            border-width: 2.2px;
+            background: rgba(201, 169, 110, 0.06);
+        }
+        .cursor-ring.clicking {
+            width: 28px;
+            height: 28px;
+            border-color: #fff;
+            border-width: 2.5px;
+        }
+        @media (max-width: 768px) {
+            .cursor-dot,
+            .cursor-ring {
+                display: none;
+            }
+        }
+
+        /* ── Animated Background ──────────────────── */
+        .bg-ambiance {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.09;
+            animation: orbFloat 18s infinite ease-in-out;
+            will-change: transform;
+        }
+        .bg-orb:nth-child(1) {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #c9a96e 0%, transparent 70%);
+            top: -200px;
+            left: -150px;
+            animation-delay: 0s;
+            animation-duration: 20s;
+        }
+        .bg-orb:nth-child(2) {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #5a9e96 0%, transparent 70%);
+            bottom: -180px;
+            right: -120px;
+            animation-delay: -7s;
+            animation-duration: 22s;
+        }
+        .bg-orb:nth-child(3) {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #c9a96e 0%, transparent 70%);
+            top: 50%;
+            left: 55%;
+            animation-delay: -13s;
+            animation-duration: 24s;
+            opacity: 0.06;
+        }
+        @keyframes orbFloat {
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(60px, -50px) scale(1.15);
+            }
+            50% {
+                transform: translate(-30px, 40px) scale(0.9);
+            }
+            75% {
+                transform: translate(-55px, -30px) scale(1.1);
+            }
+        }
+
+        /* ── Particle Canvas ──────────────────────── */
+        #particleCanvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        /* ── Main App Container ───────────────────── */
+        .app-container {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+        }
+
+        /* ── Navigation ───────────────────────────── */
+        .nav-bar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background: rgba(21, 29, 46, 0.7);
+            -webkit-backdrop-filter: blur(28px);
+            backdrop-filter: blur(28px);
+            border: 1px solid var(--border-subtle);
+            border-radius: 60px;
+            padding: 8px 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s var(--transition-smooth);
+            width: auto;
+            max-width: 95vw;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .nav-bar.scrolled {
+            top: 10px;
+            background: rgba(21, 29, 46, 0.88);
+            box-shadow: 0 8px 50px rgba(0, 0, 0, 0.65);
+        }
+        .nav-brand {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--gold);
+            letter-spacing: 0.03em;
+            padding: 8px 18px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: color 0.3s;
+            user-select: none;
+        }
+        .nav-brand:hover {
+            color: var(--gold-light);
+        }
+        .nav-links {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .nav-link {
+            padding: 10px 20px;
+            border-radius: 40px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.02em;
+            transition: all 0.35s var(--transition-smooth);
+            cursor: pointer;
+            position: relative;
+            white-space: nowrap;
+            border: none;
+            background: transparent;
+            font-family: var(--font-body);
+        }
+        .nav-link:hover {
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.04);
+        }
+        .nav-link.active {
+            color: #fff;
+            background: rgba(201, 169, 110, 0.15);
+            box-shadow: 0 0 20px rgba(201, 169, 110, 0.1);
+            font-weight: 600;
+        }
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 18px;
+            height: 3px;
+            background: var(--gold);
+            border-radius: 3px;
+        }
+        .nav-cta {
+            padding: 10px 22px;
+            border-radius: 40px;
+            background: var(--gold);
+            color: #1a1a1a;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            border: none;
+            transition: all 0.35s var(--transition-smooth);
+            white-space: nowrap;
+            font-family: var(--font-body);
+            box-shadow: 0 4px 20px rgba(201, 169, 110, 0.3);
+        }
+        .nav-cta:hover {
+            background: var(--gold-light);
+            box-shadow: 0 6px 28px rgba(201, 169, 110, 0.45);
+            transform: translateY(-2px);
+        }
+        @media (max-width: 768px) {
+            .nav-bar {
+                top: 10px;
+                padding: 6px 8px;
+                gap: 2px;
+                border-radius: 40px;
+            }
+            .nav-brand {
+                font-size: 1rem;
+                padding: 6px 12px;
+            }
+            .nav-link {
+                padding: 8px 12px;
+                font-size: 0.78rem;
+            }
+            .nav-cta {
+                padding: 8px 14px;
+                font-size: 0.78rem;
+            }
+            .nav-link.active::after {
+                bottom: 3px;
+                width: 12px;
+                height: 2px;
+            }
+        }
+
+        /* ── Page Container ───────────────────────── */
+        .page {
+            display: none;
+            animation: pageEnter 0.7s var(--transition-smooth) forwards;
+            padding-top: 110px;
+            min-height: 100vh;
+        }
+        .page.active {
+            display: block;
+        }
+        @keyframes pageEnter {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+                filter: blur(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+        @keyframes pageEnterAlt {
+            from {
+                opacity: 0;
+                clip-path: inset(0 0 100% 0);
+            }
+            to {
+                opacity: 1;
+                clip-path: inset(0 0 0% 0);
+            }
+        }
+        .page.alt-enter {
+            animation: pageEnterAlt 0.65s var(--transition-smooth) forwards;
+        }
+
+        /* ── Home Page ────────────────────────────── */
+        .hero-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 85vh;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            z-index: 2;
+        }
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 22px;
+            border-radius: 40px;
+            border: 1px solid var(--border-gold);
+            background: rgba(201, 169, 110, 0.06);
+            color: var(--gold-light);
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+            animation: fadeInUp 0.8s var(--transition-smooth) forwards;
+            opacity: 0;
+            animation-delay: 0.1s;
+        }
+        .hero-title {
+            font-family: var(--font-heading);
+            font-size: clamp(3rem, 6vw, 5.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.01em;
+            margin-bottom: 20px;
+            color: #fff;
+            animation: fadeInUp 0.8s var(--transition-smooth) forwards;
+            opacity: 0;
+            animation-delay: 0.2s;
+        }
+        .hero-title .gold-accent {
+            color: var(--gold);
+            font-style: italic;
+            display: inline-block;
+            animation: shimmerText 3s infinite;
+        }
+        @keyframes shimmerText {
+            0%,
+            100% {
+                color: var(--gold);
+            }
+            50% {
+                color: var(--gold-light);
+            }
+        }
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 550px;
+            margin: 0 auto 36px;
+            animation: fadeInUp 0.8s var(--transition-smooth) forwards;
+            opacity: 0;
+            animation-delay: 0.35s;
+            line-height: 1.8;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s var(--transition-smooth) forwards;
+            opacity: 0;
+            animation-delay: 0.5s;
+        }
+        .btn-primary {
+            padding: 15px 34px;
+            border-radius: 50px;
+            background: var(--gold);
+            color: #1a1a1a;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.03em;
+            border: none;
+            cursor: pointer;
+            transition: all 0.4s var(--transition-bounce);
+            font-family: var(--font-body);
+            box-shadow: 0 6px 28px rgba(201, 169, 110, 0.35);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 36px rgba(201, 169, 110, 0.5);
+            background: var(--gold-light);
+        }
+        .btn-primary:active {
+            transform: scale(0.96);
+            transition: transform 0.15s;
+        }
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg,
+                    transparent 0%, rgba(255, 255, 255, 0.25) 50%, transparent 100%);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+        .btn-primary:hover::after {
+            transform: translateX(100%);
+        }
+        .btn-outline {
+            padding: 15px 34px;
+            border-radius: 50px;
+            background: transparent;
+            color: var(--white);
+            font-weight: 500;
+            font-size: 1rem;
+            letter-spacing: 0.03em;
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            cursor: pointer;
+            transition: all 0.4s var(--transition-bounce);
+            font-family: var(--font-body);
+        }
+        .btn-outline:hover {
+            border-color: var(--gold);
+            color: var(--gold-light);
+            box-shadow: 0 0 30px rgba(201, 169, 110, 0.2);
+            transform: translateY(-2px);
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Floating decorative cross */
+        .floating-cross {
+            position: absolute;
+            font-size: 2.5rem;
+            color: rgba(201, 169, 110, 0.15);
+            animation: floatCross 12s infinite ease-in-out;
+            pointer-events: none;
+            user-select: none;
+        }
+        .floating-cross:nth-child(1) {
+            top: 12%;
+            left: 8%;
+            animation-delay: 0s;
+        }
+        .floating-cross:nth-child(2) {
+            top: 70%;
+            right: 10%;
+            animation-delay: -4s;
+            font-size: 3rem;
+        }
+        .floating-cross:nth-child(3) {
+            top: 25%;
+            right: 18%;
+            animation-delay: -8s;
+            font-size: 1.8rem;
+        }
+        @keyframes floatCross {
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.15;
+            }
+            33% {
+                transform: translateY(-30px) rotate(5deg);
+                opacity: 0.25;
+            }
+            66% {
+                transform: translateY(15px) rotate(-3deg);
+                opacity: 0.1;
+            }
+        }
+
+        /* ── About Page ───────────────────────────── */
+        .about-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+            min-height: 75vh;
+        }
+        @media (max-width: 900px) {
+            .about-layout {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+        }
+        .about-image-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .about-image-frame {
+            width: 320px;
+            height: 380px;
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            border: 2px solid var(--border-gold);
+            overflow: hidden;
+            position: relative;
+            box-shadow: var(--shadow-elevated), var(--shadow-gold-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .about-image-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg,
+                    rgba(201, 169, 110, 0.2) 0%, rgba(21, 29, 46, 0.9) 60%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .doctor-avatar {
+            font-size: 8rem;
+            opacity: 0.9;
+            filter: grayscale(30%);
+            animation: gentlePulse 4s infinite ease-in-out;
+        }
+        @keyframes gentlePulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.04);
+            }
+        }
+        .about-badge-floating {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            background: var(--gold);
+            color: #1a1a1a;
+            padding: 14px 22px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 0.04em;
+            box-shadow: 0 8px 30px rgba(201, 169, 110, 0.4);
+            animation: floatBadge 5s infinite ease-in-out;
+        }
+        @keyframes floatBadge {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-14px);
+            }
+        }
+        .about-text h2 {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #fff;
+        }
+        .about-text .gold-line {
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--gold);
+            border-radius: 3px;
+            margin-bottom: 22px;
+        }
+        .about-text p {
+            color: var(--text-secondary);
+            margin-bottom: 18px;
+            font-size: 1.05rem;
+            line-height: 1.9;
+        }
+        .about-stats {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 28px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-number {
+            font-family: var(--font-heading);
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--gold);
+            display: block;
+        }
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        /* ── Services Page ────────────────────────── */
+        .services-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header h2 {
+            font-family: var(--font-heading);
+            font-size: clamp(2.2rem, 4vw, 3.5rem);
+            font-weight: 700;
+            color: #fff;
+        }
+        .section-header .gold-line {
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: var(--gold);
+            border-radius: 3px;
+            margin: 16px auto;
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 28px;
+        }
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 36px 28px;
+            transition: all 0.5s var(--transition-smooth);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+        }
+        .service-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--border-gold);
+            box-shadow: var(--shadow-elevated), var(--shadow-gold-glow);
+        }
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center,
+                    rgba(201, 169, 110, 0.06) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+        .service-card:hover::before {
+            opacity: 1;
+        }
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 18px;
+            display: block;
+            transition: transform 0.5s var(--transition-bounce);
+        }
+        .service-card:hover .service-icon {
+            transform: scale(1.15) rotate(-5deg);
+        }
+        .service-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        .service-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        .service-card .card-arrow {
+            display: inline-block;
+            margin-top: 14px;
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 0.9rem;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.4s var(--transition-smooth);
+        }
+        .service-card:hover .card-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* ── Appointment Page ─────────────────────── */
+        .appointment-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px;
+            align-items: start;
+        }
+        @media (max-width: 850px) {
+            .appointment-layout {
+                grid-template-columns: 1fr;
+                gap: 35px;
+            }
+        }
+        .appointment-info h2 {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+        .appointment-info .gold-line {
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: var(--gold);
+            border-radius: 3px;
+            margin-bottom: 20px;
+        }
+        .appointment-info p {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.8;
+        }
+        .info-card-mini {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 20px;
+            background: var(--bg-card);
+            border-radius: var(--radius-sm);
+            margin-bottom: 14px;
+            border: 1px solid var(--border-subtle);
+            transition: all 0.4s;
+        }
+        .info-card-mini:hover {
+            border-color: var(--border-gold);
+            box-shadow: var(--shadow-card);
+        }
+        .info-card-mini .mini-icon {
+            font-size: 1.8rem;
+        }
+        .info-card-mini span {
+            font-weight: 500;
+            color: var(--white-soft);
+        }
+        .appointment-form-wrapper {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 40px 32px;
+            box-shadow: var(--shadow-elevated);
+            position: relative;
+            overflow: hidden;
+        }
+        .appointment-form-wrapper::after {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -30%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(201, 169, 110, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+            border-radius: 50%;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            letter-spacing: 0.02em;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: var(--radius-sm);
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            background: var(--bg-card-alt);
+            color: var(--white);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: all 0.35s;
+            outline: none;
+            resize: vertical;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(201, 169, 110, 0.08);
+            background: #1e2a3d;
+        }
+        .form-group input.error,
+        .form-group select.error,
+        .form-group textarea.error {
+            border-color: #e05555;
+            animation: shake 0.5s;
+        }
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-6px);
+            }
+            50% {
+                transform: translateX(6px);
+            }
+            75% {
+                transform: translateX(-4px);
+            }
+        }
+        .error-msg {
+            color: #e05555;
+            font-size: 0.8rem;
+            margin-top: 4px;
+            display: none;
+        }
+        .error-msg.visible {
+            display: block;
+            animation: fadeInUp 0.3s;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 50px;
+            background: var(--gold);
+            color: #1a1a1a;
+            font-weight: 700;
+            font-size: 1.05rem;
+            letter-spacing: 0.03em;
+            border: none;
+            cursor: pointer;
+            transition: all 0.4s var(--transition-bounce);
+            font-family: var(--font-body);
+            box-shadow: 0 6px 24px rgba(201, 169, 110, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 36px rgba(201, 169, 110, 0.5);
+            background: var(--gold-light);
+        }
+        .submit-btn:active {
+            transform: scale(0.95);
+        }
+        .submit-btn .spinner {
+            display: none;
+            width: 22px;
+            height: 22px;
+            border: 3px solid transparent;
+            border-top-color: #1a1a1a;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .submit-btn.loading .btn-text {
+            display: none;
+        }
+        .submit-btn.loading .spinner {
+            display: block;
+        }
+        .success-toast {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: #2d5a4b;
+            color: #fff;
+            padding: 18px 28px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            z-index: 9999;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            transform: translateX(120%);
+            transition: transform 0.5s var(--transition-bounce);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .success-toast.show {
+            transform: translateX(0);
+        }
+
+        /* ── Location Page ────────────────────────── */
+        .location-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+            align-items: start;
+        }
+        @media (max-width: 850px) {
+            .location-layout {
+                grid-template-columns: 1fr;
+                gap: 35px;
+            }
+        }
+        .map-container {
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 2px solid var(--border-subtle);
+            box-shadow: var(--shadow-elevated);
+            height: 420px;
+            background: var(--bg-card);
+            position: relative;
+        }
+        .map-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background: linear-gradient(135deg, #1a2338 0%, #151d2e 100%);
+            color: var(--text-secondary);
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.4s;
+        }
+        .map-placeholder:hover {
+            background: linear-gradient(135deg, #1e2a3d 0%, #1a2338 100%);
+        }
+        .map-placeholder .map-icon {
+            font-size: 5rem;
+            opacity: 0.6;
+            animation: bounceMap 2.5s infinite ease-in-out;
+        }
+        @keyframes bounceMap {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-18px);
+            }
+            60% {
+                transform: translateY(-6px);
+            }
+        }
+        .location-details h2 {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+        .location-details .gold-line {
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: var(--gold);
+            border-radius: 3px;
+            margin-bottom: 20px;
+        }
+        .location-details p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+        .location-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 22px 26px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.4s;
+            cursor: default;
+        }
+        .location-card:hover {
+            border-color: var(--border-gold);
+            box-shadow: var(--shadow-card);
+            transform: translateX(4px);
+        }
+        .location-card .loc-icon {
+            font-size: 2.2rem;
+            flex-shrink: 0;
+        }
+        .location-card .loc-info strong {
+            color: #fff;
+            display: block;
+            font-size: 1rem;
+        }
+        .location-card .loc-info span {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ── Footer ───────────────────────────────── */
+        .site-footer {
+            text-align: center;
+            padding: 30px 40px;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 40px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            letter-spacing: 0.03em;
+        }
+
+        /* ── Reveal Animations (Intersection Observer) ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.9s var(--transition-smooth);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-stagger {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s var(--transition-smooth);
+        }
+        .reveal-stagger.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── Responsive ───────────────────────────── */
+        @media (max-width: 600px) {
+            .hero-section {
+                padding: 20px;
+                min-height: 70vh;
+            }
+            .services-section,
+            .appointment-layout,
+            .location-layout,
+            .about-layout {
+                padding: 20px;
+                gap: 25px;
+            }
+            .about-image-frame {
+                width: 240px;
+                height: 290px;
+            }
+            .doctor-avatar {
+                font-size: 5rem;
+            }
+            .about-badge-floating {
+                bottom: -14px;
+                right: -10px;
+                padding: 10px 16px;
+                font-size: 0.75rem;
+            }
+            .stat-number {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- Background Ambiance -->
+    <div class="bg-ambiance">
+        <div class="bg-orb"></div>
+        <div class="bg-orb"></div>
+        <div class="bg-orb"></div>
+    </div>
+
+    <!-- Particle Canvas -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- App Container -->
+    <div class="app-container">
+        <!-- Navigation -->
+        <nav class="nav-bar" id="navBar">
+            <span class="nav-brand" onclick="navigateTo('home')">Dr. Amelia Hartwood</span>
+            <div class="nav-links">
+                <button class="nav-link active" data-page="home" onclick="navigateTo('home')">Home</button>
+                <button class="nav-link" data-page="about" onclick="navigateTo('about')">About</button>
+                <button class="nav-link" data-page="services" onclick="navigateTo('services')">Services</button>
+                <button class="nav-link" data-page="appointment" onclick="navigateTo('appointment')">Appointment</button>
+                <button class="nav-link" data-page="location" onclick="navigateTo('location')">Location</button>
+            </div>
+            <button class="nav-cta" onclick="navigateTo('appointment')">Book Now</button>
+        </nav>
+
+        <!-- ── HOME PAGE ──────────────────────────── -->
+        <div class="page active" id="page-home">
+            <section class="hero-section">
+                <span class="floating-cross">✚</span>
+                <span class="floating-cross">✦</span>
+                <span class="floating-cross">◈</span>
+                <div class="hero-content">
+                    <span class="hero-badge">✨ Premier Medical Care</span>
+                    <h1 class="hero-title">
+                        Your Health,<br><span class="gold-accent">Our Priority</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Experience world-class medical care with Dr. Amelia Hartwood.
+                        Combining expertise, compassion, and cutting-edge treatments
+                        for your complete well-being.
+                    </p>
+                    <div class="hero-buttons">
+                        <button class="btn-primary" onclick="navigateTo('appointment')">
+                            Schedule Appointment →
+                        </button>
+                        <button class="btn-outline" onclick="navigateTo('about')">
+                            Meet the Doctor
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ── ABOUT PAGE ──────────────────────────── -->
+        <div class="page" id="page-about">
+            <div class="about-layout">
+                <div class="about-image-wrapper reveal">
+                    <div class="about-image-frame">
+                        <div class="about-image-placeholder">
+                            <span class="doctor-avatar">👩‍⚕️</span>
+                        </div>
+                    </div>
+                    <span class="about-badge-floating">15+ Years Exp.</span>
+                </div>
+                <div class="about-text reveal-stagger">
+                    <h2>Dr. Amelia Hartwood</h2>
+                    <span class="gold-line"></span>
+                    <p>
+                        Board-certified physician with over 15 years of clinical experience
+                        across internal medicine, cardiology, and preventive healthcare.
+                        Dr. Hartwood earned her MD from Johns Hopkins University and completed
+                        her residency at Mayo Clinic, where she developed a patient-first
+                        philosophy that defines her practice today.
+                    </p>
+                    <p>
+                        She believes in treating the whole person — not just the symptoms.
+                        Every patient receives a tailored care plan built on trust,
+                        transparency, and the latest medical research.
+                    </p>
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" data-count="15000">0</span>
+                            <span class="stat-label">Happy Patients</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-count="15">0</span>
+                            <span class="stat-label">Years Experience</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-count="8">0</span>
+                            <span class="stat-label">Awards Won</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── SERVICES PAGE ──────────────────────── -->
+        <div class="page" id="page-services">
+            <div class="services-section">
+                <div class="section-header reveal">
+                    <h2>Our Services</h2>
+                    <span class="gold-line"></span>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card reveal-stagger" style="transition-delay: 0s;">
+                        <span class="service-icon">🫀</span>
+                        <h3>Cardiology</h3>
+                        <p>Comprehensive heart health assessments, ECG monitoring, and personalized cardiovascular care plans.</p>
+                        <span class="card-arrow">Learn more →</span>
+                    </div>
+                    <div class="service-card reveal-stagger" style="transition-delay: 0.1s;">
+                        <span class="service-icon">🩺</span>
+                        <h3>General Checkup</h3>
+                        <p>Thorough annual physical examinations, blood work analysis, and preventive health screenings.</p>
+                        <span class="card-arrow">Learn more →</span>
+                    </div>
+                    <div class="service-card reveal-stagger" style="transition-delay: 0.2s;">
+                        <span class="service-icon">🧠</span>
+                        <h3>Neurology</h3>
+                        <p>Expert evaluation and management of neurological conditions with advanced diagnostic tools.</p>
+                        <span class="card-arrow">Learn more →</span>
+                    </div>
+                    <div class="service-card reveal-stagger" style="transition-delay: 0.3s;">
+                        <span class="service-icon">🩻</span>
+                        <h3>Diagnostics</h3>
+                        <p>State-of-the-art imaging and laboratory services for accurate, rapid diagnosis.</p>
+                        <span class="card-arrow">Learn more →</span>
+                    </div>
+                    <div class="service-card reveal-stagger" style="transition-delay: 0.4s;">
+                        <span class="service-icon">💊</span>
+                        <h3>Medication Mgmt</h3>
+                        <p>Personalized medication plans with regular reviews to ensure optimal therapeutic outcomes.</p>
+                        <span class="card-arrow">Learn more →</span>
+                    </div>
+                    <div class="service-card reveal-stagger" style="transition-delay: 0.5s;">
+                        <span class="service-icon">🧘</span>
+                        <h3>Wellness Coaching</h3>
+                        <p>Holistic lifestyle guidance including nutrition, stress management, and exercise planning.</p>
+                        <span class="card-arrow">Learn more →</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── APPOINTMENT PAGE ───────────────────── -->
+        <div class="page" id="page-appointment">
+            <div class="appointment-layout">
+                <div class="appointment-info reveal">
+                    <h2>Book an Appointment</h2>
+                    <span class="gold-line"></span>
+                    <p>
+                        Ready to take charge of your health? Schedule a consultation
+                        with Dr. Hartwood. We'll confirm your appointment within 24 hours.
+                    </p>
+                    <div class="info-card-mini">
+                        <span class="mini-icon">📞</span>
+                        <span>+91 XXXXXXXXXX</span>
+                    </div>
+                    <div class="info-card-mini">
+                        <span class="mini-icon">📧</span>
+                        <span>contact@drhartwood.com</span>
+                    </div>
+                    <div class="info-card-mini">
+                        <span class="mini-icon">⏰</span>
+                        <span>Mon–Fri: 8:00 AM – 6:00 PM</span>
+                    </div>
+                </div>
+                <div class="appointment-form-wrapper reveal-stagger">
+                    <form id="appointmentForm" novalidate>
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" placeholder="your name..." required>
+                            <span class="error-msg" id="nameError">Please enter your full name.</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" placeholder="youremail@gmail.com" required>
+                            <span class="error-msg" id="emailError">Please enter a valid email.</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" placeholder="+91 XXXXXXXXXX" required>
+                            <span class="error-msg" id="phoneError">Please enter a valid phone number.</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="service">Select Service</label>
+                            <select id="service" required>
+                                <option value="">— Choose a service —</option>
+                                <option value="cardiology">Cardiology</option>
+                                <option value="checkup">General Checkup</option>
+                                <option value="neurology">Neurology</option>
+                                <option value="diagnostics">Diagnostics</option>
+                                <option value="medication">Medication Management</option>
+                                <option value="wellness">Wellness Coaching</option>
+                            </select>
+                            <span class="error-msg" id="serviceError">Please select a service.</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Preferred Date</label>
+                            <input type="date" id="date" required>
+                            <span class="error-msg" id="dateError">Please select a date.</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Additional Notes</label>
+                            <textarea id="message" rows="3" placeholder="Any specific concerns..."></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn" id="submitBtn">
+                            <span class="btn-text">Confirm Appointment</span>
+                            <span class="spinner"></span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── LOCATION PAGE ──────────────────────── -->
+        <div class="page" id="page-location">
+            <div class="location-layout">
+                <div class="map-container reveal">
+                    <div class="map-placeholder" title="Click to view on Google Maps"
+                    onclick="window.open('https://maps.google.com/?q=123+Wellness+Avenue+Suite+400+New+York+NY+10001','_blank')">
+                    <span class="map-icon">📍</span>
+                    <span style="font-weight:600;color:#fff;">123 Pune, Maharashtra</span>
+                    <span style="font-size:0.85rem;">Pune, Maharashtra 411002</span>
+                    <span style="font-size:0.8rem;color:var(--gold);">Click to open in Google Maps</span>
+                </div>
+            </div>
+            <div class="location-details reveal-stagger">
+                <h2>Find Us</h2>
+                <span class="gold-line"></span>
+                <p>
+                    Our clinic is conveniently located in the heart of the city,
+                    with easy access to public transport and ample parking.
+                </p>
+                <div class="location-card">
+                    <span class="loc-icon">🏥</span>
+                    <div class="loc-info">
+                        <strong>Main Clinic</strong>
+                        <span>Pune, Maharashtra, India, IN 411002</span>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <span class="loc-icon">🚇</span>
+                    <div class="loc-info">
+                        <strong>Nearest Metro</strong>
+                        <span>Come and then call for location</span>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <span class="loc-icon">🅿️</span>
+                    <div class="loc-info">
+                        <strong>Parking</strong>
+                        <span>Underground parking available — first 2 hours complimentary</span>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <span class="loc-icon">📞</span>
+                    <div class="loc-info">
+                        <strong>Contact</strong>
+                        <span>+91 XXXXXXXXXX | contact@drhartwood.com</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        © 2026 Dr. Amelia Hartwood Medical Clinic. All rights reserved. | Designed with care.
+    </footer>
+
+    <!-- Success Toast -->
+    <div class="success-toast" id="successToast">✅ Appointment request submitted successfully!</div>
+
+    <script>
+        (function() {
+            // ── Custom Cursor ──────────────────────────
+            const dot = document.getElementById('cursorDot');
+            const ring = document.getElementById('cursorRing');
+            let mouseX = 0,
+                mouseY = 0;
+            let ringX = 0,
+                ringY = 0;
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                dot.style.left = mouseX + 'px';
+                dot.style.top = mouseY + 'px';
+            });
+
+            function animateRing() {
+                ringX += (mouseX - ringX) * 0.2;
+                ringY += (mouseY - ringY) * 0.2;
+                ring.style.left = ringX + 'px';
+                ring.style.top = ringY + 'px';
+                requestAnimationFrame(animateRing);
+            }
+            animateRing();
+
+            // Hover effects on interactive elements
+            const hoverTargets = document.querySelectorAll(
+                'a, button, .nav-link, .nav-cta, .service-card, .location-card, .info-card-mini, .map-placeholder, input, select, textarea, .btn-primary, .btn-outline, .submit-btn'
+                );
+            hoverTargets.forEach(el => {
+                el.addEventListener('mouseenter', () => ring.classList.add('hovering'));
+                el.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
+                el.addEventListener('mousedown', () => ring.classList.add('clicking'));
+                el.addEventListener('mouseup', () => ring.classList.remove('clicking'));
+            });
+
+            // ── Particle Canvas ────────────────────────
+            const canvas = document.getElementById('particleCanvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            const maxParticles = 50;
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            class Particle {
+                constructor() {
+                    this.reset();
+                    this.y = Math.random() * canvas.height;
+                }
+                reset() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = -20;
+                    this.size = Math.random() * 2 + 0.8;
+                    this.speedY = Math.random() * 0.5 + 0.2;
+                    this.speedX = (Math.random() - 0.5) * 0.35;
+                    this.opacity = Math.random() * 0.4 + 0.1;
+                    this.life = Math.random() * 300 + 200;
+                    this.age = 0;
+                }
+                update() {
+                    this.y += this.speedY;
+                    this.x += this.speedX;
+                    this.age++;
+                    if (this.age > this.life || this.y > canvas.height + 20) {
+                        this.reset();
+                        this.y = -20;
+                        this.age = 0;
+                    }
+                }
+                draw(ctx) {
+                    const alpha = this.opacity * (1 - this.age / this.life);
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(201,169,110,${alpha})`;
+                    ctx.fill();
+                }
+            }
+
+            for (let i = 0; i < maxParticles; i++) {
+                particles.push(new Particle());
+            }
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw(ctx);
+                });
+                // Draw subtle connections
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 100) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(201,169,110,${0.04 * (1 - dist / 100)})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(animateParticles);
+            }
+            animateParticles();
+
+            // ── Navigation ─────────────────────────────
+            const navBar = document.getElementById('navBar');
+            const allPages = document.querySelectorAll('.page');
+            const allNavLinks = document.querySelectorAll('.nav-link');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 40) {
+                    navBar.classList.add('scrolled');
+                } else {
+                    navBar.classList.remove('scrolled');
+                }
+            });
+
+            window.navigateTo = function(pageName) {
+                // Update pages
+                allPages.forEach(page => {
+                    page.classList.remove('active', 'alt-enter');
+                });
+                const targetPage = document.getElementById('page-' + pageName);
+                if (targetPage) {
+                    // Alternate enter animation
+                    const useAlt = Math.random() > 0.5;
+                    if (useAlt) {
+                        targetPage.classList.add('alt-enter');
+                    }
+                    targetPage.classList.add('active');
+                    // Re-trigger reveal animations on the new page
+                    setTimeout(() => {
+                        triggerRevealAnimations();
+                    }, 150);
+                }
+                // Update nav
+                allNavLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-page') === pageName) {
+                        link.classList.add('active');
+                    }
+                });
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                // Update URL hash
+                window.location.hash = pageName;
+            };
+
+            // Handle browser back/forward
+            window.addEventListener('hashchange', () => {
+                const hash = window.location.hash.replace('#', '') || 'home';
+                navigateToSilent(hash);
+            });
+
+            function navigateToSilent(pageName) {
+                allPages.forEach(page => page.classList.remove('active', 'alt-enter'));
+                const targetPage = document.getElementById('page-' + pageName);
+                if (targetPage) {
+                    targetPage.classList.add('active');
+                    setTimeout(() => triggerRevealAnimations(), 150);
+                }
+                allNavLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-page') === pageName) link.classList.add('active');
+                });
+            }
+
+            // Initial hash check
+            const initHash = window.location.hash.replace('#', '') || 'home';
+            if (initHash !== 'home') {
+                navigateToSilent(initHash);
+            }
+
+            // ── Intersection Observer for Reveal Animations ──
+            function triggerRevealAnimations() {
+                const revealEls = document.querySelectorAll('.reveal, .reveal-stagger');
+                revealEls.forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight - 60) {
+                        el.classList.add('visible');
+                    }
+                });
+            }
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+            document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Initial trigger
+            triggerRevealAnimations();
+
+            // ── Counter Animation ──────────────────────
+            function animateCounters() {
+                document.querySelectorAll('.stat-number[data-count]').forEach(el => {
+                    if (el.dataset.animated) return;
+                    el.dataset.animated = 'true';
+                    const target = parseInt(el.getAttribute('data-count'));
+                    const duration = 2000;
+                    const startTime = performance.now();
+
+                    function update(now) {
+                        const elapsed = now - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+                        el.textContent = Math.floor(eased * target).toLocaleString() + '+';
+                        if (progress < 1) {
+                            requestAnimationFrame(update);
+                        } else {
+                            el.textContent = target.toLocaleString() + '+';
+                        }
+                    }
+                    requestAnimationFrame(update);
+                });
+            }
+
+            // Observe stats for counter animation
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounters();
+                    }
+                });
+            }, { threshold: 0.5 });
+            document.querySelectorAll('.stat-number[data-count]').forEach(el => {
+                statsObserver.observe(el);
+            });
+
+            // ── Appointment Form ───────────────────────
+            const form = document.getElementById('appointmentForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const successToast = document.getElementById('successToast');
+
+            function showError(fieldId, errorId) {
+                const field = document.getElementById(fieldId);
+                const error = document.getElementById(errorId);
+                if (field) field.classList.add('error');
+                if (error) error.classList.add('visible');
+            }
+
+            function clearError(fieldId, errorId) {
+                const field = document.getElementById(fieldId);
+                const error = document.getElementById(errorId);
+                if (field) field.classList.remove('error');
+                if (error) error.classList.remove('visible');
+            }
+
+            function validateForm() {
+                let valid = true;
+                const fullName = document.getElementById('fullName').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const service = document.getElementById('service').value;
+                const date = document.getElementById('date').value;
+
+                if (!fullName || fullName.length < 2) { showError('fullName', 'nameError');
+                    valid = false; } else { clearError('fullName', 'nameError'); }
+                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showError('email', 'emailError');
+                    valid = false; } else { clearError('email', 'emailError'); }
+                if (!phone || phone.replace(/[^0-9]/g, '').length < 7) { showError('phone', 'phoneError');
+                    valid = false; } else { clearError('phone', 'phoneError'); }
+                if (!service) { showError('service', 'serviceError');
+                    valid = false; } else { clearError('service', 'serviceError'); }
+                if (!date) { showError('date', 'dateError');
+                    valid = false; } else { clearError('date', 'dateError'); }
+                return valid;
+            }
+
+            // Real-time clearing
+            ['fullName', 'email', 'phone', 'service', 'date'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('input', () => {
+                        const errorMap = {
+                            fullName: 'nameError',
+                            email: 'emailError',
+                            phone: 'phoneError',
+                            service: 'serviceError',
+                            date: 'dateError'
+                        };
+                        clearError(id, errorMap[id]);
+                    });
+                    el.addEventListener('change', () => {
+                        const errorMap = {
+                            fullName: 'nameError',
+                            email: 'emailError',
+                            phone: 'phoneError',
+                            service: 'serviceError',
+                            date: 'dateError'
+                        };
+                        clearError(id, errorMap[id]);
+                    });
+                }
+            });
+
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    if (!validateForm()) return;
+                    // Simulate submission
+                    submitBtn.classList.add('loading');
+                    setTimeout(() => {
+                        submitBtn.classList.remove('loading');
+                        form.reset();
+                        // Show toast
+                        successToast.classList.add('show');
+                        setTimeout(() => {
+                            successToast.classList.remove('show');
+                        }, 3500);
+                    }, 1800);
+                });
+            }
+
+            // Set min date to today
+            const dateInput = document.getElementById('date');
+            if (dateInput) {
+                const today = new Date().toISOString().split('T')[0];
+                dateInput.setAttribute('min', today);
+            }
+
+            // ── Service Card Click ─────────────────────
+            document.querySelectorAll('.service-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const title = this.querySelector('h3')?.textContent || '';
+                    const serviceMap = {
+                        'Cardiology': 'cardiology',
+                        'General Checkup': 'checkup',
+                        'Neurology': 'neurology',
+                        'Diagnostics': 'diagnostics',
+                        'Medication Mgmt': 'medication',
+                        'Wellness Coaching': 'wellness'
+                    };
+                    const serviceVal = serviceMap[title] || '';
+                    navigateTo('appointment');
+                    setTimeout(() => {
+                        const serviceSelect = document.getElementById('service');
+                        if (serviceSelect && serviceVal) {
+                            serviceSelect.value = serviceVal;
+                            clearError('service', 'serviceError');
+                        }
+                    }, 400);
+                });
+            });
+
+            console.log('🏥 Dr. Amelia Hartwood Clinic — Premium website initialized.');
+            console.log('✨ Navigate between pages using the top navigation bar.');
+            console.log('📅 Try booking an appointment on the Appointment page!');
+        })();
+    </script>
+</body>
+</html>
